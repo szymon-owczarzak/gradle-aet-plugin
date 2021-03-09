@@ -1,4 +1,4 @@
-package com.wttech.aet.gradle.element
+package com.wttech.aet.gradle.suite
 
 import org.gradle.api.Action
 

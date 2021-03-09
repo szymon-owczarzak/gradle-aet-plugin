@@ -1,6 +1,7 @@
-package com.wttech.aet.gradle.element
+package com.wttech.aet.gradle.suite.test
 
 import com.wttech.aet.gradle.common.sanitize
+import com.wttech.aet.gradle.suite.test.url.URLs
 import org.gradle.api.Action
 
 open class Test(private val name: String) : Collect() {

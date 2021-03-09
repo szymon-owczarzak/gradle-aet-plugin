@@ -1,7 +1,8 @@
-package com.wttech.aet.gradle.element
+package com.wttech.aet.gradle.suite
 
 import org.gradle.api.Action
 import com.wttech.aet.gradle.common.sanitize
+import com.wttech.aet.gradle.suite.test.Tests
 import java.io.File
 
 open class Suite(private val name: String) {

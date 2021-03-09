@@ -1,6 +1,6 @@
 package com.wttech.aet.gradle
 
-import com.wttech.aet.gradle.element.Suites
+import com.wttech.aet.gradle.suite.Suites
 import org.gradle.api.Action
 
 open class AetExtension {

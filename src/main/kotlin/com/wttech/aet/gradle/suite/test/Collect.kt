@@ -1,4 +1,4 @@
-package com.wttech.aet.gradle.element
+package com.wttech.aet.gradle.suite.test
 
 open class Collect {
     private val collect = StringBuilder("\n    <collect>")
@@ -6,7 +6,7 @@ open class Collect {
     fun addCookie(name: String, value: String, domain: String = "") =
         collect("<modify-cookie action=\"add\" cookie-name=\"${name}\" cookie-value=\"${value}\" ${domainProp(domain)}/>")
 
-    fun removeCookie(name: String, value: String) =
+    fun removeCookie(name: String) =
         collect("<modify-cookie action=\"remove\" cookie-name=\"${name}\" />")
 
     fun open() = collect("<open />")
