@@ -8,8 +8,8 @@ group = "com.cognifide.gradle"
 
 aet {
     suites {
-        "test" {
-            domain = "test"
+        "suite_1" {
+            domain = "example.com"
             projectName = "proj"
         }
     }

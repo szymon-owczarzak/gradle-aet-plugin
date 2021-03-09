@@ -1,24 +1,21 @@
 package com.wttech.aet.gradle.element
 
-import groovy.lang.Closure
-import org.gradle.api.NamedDomainObjectContainer
+import com.wttech.aet.gradle.common.sanitize
+import org.gradle.api.Action
 
 open class Test(private val name: String) : Collect() {
 
-    lateinit var urls: NamedDomainObjectContainer<URL>
-
-    fun urls(closure: Closure<URL>): NamedDomainObjectContainer<URL> = urls.configure(closure)
+    private var urls = URLs()
+    fun urls(action: Action<URLs>) = action.execute(urls)
 
     fun build(): String {
-        val builder = StringBuilder("\n  <test name=\"${name}\">")
+        val builder = StringBuilder("\n  <test name=\"${name.sanitize()}\">")
         builder.append(buildCollect())
 
         builder.append("\n    <urls>")
-        urls.forEach { builder.append(it.build()) }
+        builder.append(urls.build())
         builder.append("\n    </urls>")
         builder.append("\n  </test>\n")
         return builder.toString()
     }
-
-
 }

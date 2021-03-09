@@ -3,14 +3,14 @@ package com.wttech.aet.gradle.element
 import org.gradle.api.Action
 import java.util.stream.Collectors
 
-class Tests {
+class URLs {
 
-    private val tests = mutableSetOf<Test>()
+    private val urls = mutableSetOf<URL>()
 
-    infix operator fun String.invoke(action: Action<Test>) = tests.add(Test(this).apply { action.execute(this) })
+    infix operator fun String.invoke(action: Action<URL>) = urls.add(URL(this).apply { action.execute(this) })
 
     fun build(): String {
-        return tests
+        return urls
             .stream()
             .map { it.build() }
             .collect(Collectors.joining())
