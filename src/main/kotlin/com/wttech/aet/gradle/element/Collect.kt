@@ -41,17 +41,58 @@ open class Collect {
             if (css.isNotBlank()) "css=\"$css\""
             else "xpath=\"$xpath\""
         val exlEl =
-            if (exclude !="") " exclude-elements=\"$exclude\""
+            if (exclude != "") " exclude-elements=\"$exclude\""
             else ""
-        collect("<screen name=\"$name\" $selector$exlEl timeout=\"$timeout\"/>")
+        collect("<screen name=\"$name\" $selector$exlEl timeout=\"$timeout\" />")
     }
 
     fun resolution(width: Int, height: Int = 0) {
         val h =
             if (height > 0) " height=\"$height\""
             else ""
-        collect("<resolution width=\"$width\" $h />")
+        collect("<resolution width=\"$width\"$h />")
     }
+
+    fun click(css: String = "", xpath: String = "", timeout: Int = 1000) {
+        val selector =
+            if (css.isNotBlank()) " css=\"$css\""
+            else " xpath=\"$xpath\""
+        collect("<click$selector timeout=\"$timeout\" />")
+    }
+
+    fun hide(css: String = "", xpath: String = "", timeout: Int = 1000, leaveBlankSpace: Boolean = true) {
+        val selector =
+            if (css.isNotBlank()) " css=\"$css\""
+            else " xpath=\"$xpath\""
+        collect("<hide$selector timeout=\"$timeout\" leaveBlankSpace=\"$leaveBlankSpace\" />")
+    }
+
+    fun login(
+        loginPage: String,
+        login: String = "",
+        password: String = "",
+        loginInputSelector: String = "",
+        passwordInputSelector: String = "",
+        submitButtonSelector: String = "",
+        loginTokenKey: String = "",
+        timeout: Int = 1000,
+        retrialNumber: Int = 3,
+        forceLogin: Boolean = false
+    ) {
+        val l = if (login != "") " login=\"$login\"" else ""
+        val p = if (password != "") " password=\"$password\"" else ""
+        val lis = if (loginInputSelector != "") " login-input-selector=\"$loginInputSelector\"" else ""
+        val pis = if (passwordInputSelector != "") " password-input-selector=\"$passwordInputSelector\"" else ""
+        val sbs = if (submitButtonSelector != "") " submit-button-selector=\"$submitButtonSelector\"" else ""
+        val ltk = if (loginTokenKey != "") " loginTokenKey=\"$loginTokenKey\"" else ""
+        collect(
+            "<login login-page=\"$loginPage\"$l$p$lis$pis$sbs$ltk" +
+                    " timeout=\"$timeout\" force-login=\"$forceLogin\" retrial-number=\"$retrialNumber\" />"
+        )
+    }
+
+    fun header(key: String, value: String, override: Boolean = false) =
+        collect("<header key=\"$key\" value=\"$value\" override=\"$override\" />")
 
     fun sleep(duration: Int = 1000) = collect("<sleep duration=\"$duration\" />")
 
