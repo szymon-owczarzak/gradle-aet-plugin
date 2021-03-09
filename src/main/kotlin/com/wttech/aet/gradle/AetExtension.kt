@@ -6,7 +6,6 @@ import org.gradle.api.Action
 open class AetExtension {
 
     private val suites = Suites()
-
     fun suites(action: Action<Suites>) = action.execute(suites)
 
     fun build() {
@@ -16,5 +15,4 @@ open class AetExtension {
     companion object {
         val NAME = "aet"
     }
-
 }

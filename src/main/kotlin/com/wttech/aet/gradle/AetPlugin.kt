@@ -7,15 +7,6 @@ class AetPlugin: Plugin<Project> {
 
     override fun apply(project: Project) {
 
-//        val suites = project.container(Suite::class.java)
-//
-//        suites.all {
-//            it.tests = project.container(Test::class.java)
-//            it.tests.all {
-//                it.urls = project.container(URL::class.java)
-//            }
-//        }
-
         project.extensions.create(AetExtension.NAME, AetExtension::class.java)
 
         project.tasks.register("buildSuites") { task ->

@@ -51,7 +51,7 @@ open class Test(private val name: String) : Collect() {
         builder.append("\n    <urls>")
         builder.append(urls.build())
         builder.append("\n    </urls>")
-        builder.append("\n  </test>\n")
+        builder.append("\n  </test>")
         return builder.toString()
     }
 
