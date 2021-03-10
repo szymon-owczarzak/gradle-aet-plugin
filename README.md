@@ -8,7 +8,7 @@ plugins {
     id("com.wttech.aet.gradle")
 }
 
-defaultTasks("buildSuite")
+defaultTasks("buildSuite") // 'buildSuite' task will generate suite xml
 group = "com.example.aet"
 
 aet {
