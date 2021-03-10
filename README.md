@@ -1,5 +1,5 @@
 # gradle-aet-plugin
-Kotlin Gradle DSL for creating AET suites
+Kotlin Gradle DSL for creating AET suites - **Only Kotlin DSL is supported**
 
 ## Example build.gradle.kts
 
