@@ -8,11 +8,15 @@ class Comparator(filterCreator: Filter = FilterCreator()) : Filter by filterCrea
 
     private val elements = mutableSetOf<String>()
 
-    override fun buildCompare(comparators: Set<SourceComparator>): String {
+    override fun buildCompare(
+        comparators: Set<SourceComparator>,
+        statusCodes: Set<StatusCodeComparator>
+    ): String {
         val builder = StringBuilder()
         if (elements.isNotEmpty()) {
             builder.append("\n    <compare>")
             comparators.forEach { builder.append(it.build()) }
+            statusCodes.forEach { builder.append(it.build()) }
             elements.forEach { builder.append("\n      $it") }
             builder.append(buildFilters())
             builder.append("\n    </compare>")
@@ -64,17 +68,6 @@ class Comparator(filterCreator: Filter = FilterCreator()) : Filter by filterCrea
         val fu = if (fuzz > 0) " fuzz=\"$fuzz\"" else ""
 
         elements.add("<screen comparator=\"layout\"$pixTr$perTr$fu />")
-    }
-
-    override fun compareStatusCodes(
-        filterRange: IntRange,
-        filterCodes: Set<Int>,
-        showExcluded: Boolean
-    ) {
-        val fc =
-            if (filterCodes.isEmpty()) ""
-            else " filterCodes=\"${filterCodes.joinToString { i: Int -> i.toString() }}\""
-        elements.add("<status-codes filterRange=\"${filterRange.first},${filterRange.last}\"$fc showExcluded=\"$showExcluded\" />")
     }
 
     override fun compareW3C(ignoreWarnings: Boolean) {

@@ -4,7 +4,10 @@ import com.wttech.aet.gradle.suite.test.filter.Filter
 
 interface Compare: Filter {
 
-    fun buildCompare(comparators: Set<SourceComparator> = setOf()): String
+    fun buildCompare(
+        comparators: Set<SourceComparator> = setOf(),
+        statusCodes: Set<StatusCodeComparator> = setOf()
+    ): String
 
     fun compareAccessibility(
         reportLevel: String = "ERROR",
@@ -22,14 +25,6 @@ interface Compare: Filter {
     fun compareJsErrors()
 
     fun compareLayout(pixelThreshold: Int = 0, percentageThreshold: Int = 0, fuzz: Int = 0)
-
-//    fun compareSource(compareType: String = "all")
-
-    fun compareStatusCodes(
-        filterRange: IntRange = 400..600,
-        filterCodes: Set<Int> = setOf(),
-        showExcluded: Boolean = true
-    )
 
     fun compareW3C(ignoreWarnings: Boolean = true)
 }

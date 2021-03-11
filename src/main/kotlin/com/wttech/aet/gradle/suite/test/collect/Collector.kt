@@ -1,5 +1,6 @@
 package com.wttech.aet.gradle.suite.test.collect
 
+import com.wttech.aet.gradle.common.asAttr
 import com.wttech.aet.gradle.common.getSelector
 import com.wttech.aet.gradle.common.getTimeout
 import com.wttech.aet.gradle.suite.test.modify.Modifier
@@ -26,9 +27,7 @@ open class Collector(
         timeout: Int
     ) {
         val selector = getSelector("collectScreen", css, xpath, false)
-        val exlEl =
-            if (exclude != "") " exclude-elements=\"$exclude\""
-            else ""
+        val exlEl = exclude.asAttr { " exclude-elements=\"$exclude\"" }
         add("<screen name=\"$name\" $selector$exlEl${getTimeout(timeout)} />")
     }
 

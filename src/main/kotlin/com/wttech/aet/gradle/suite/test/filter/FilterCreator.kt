@@ -1,6 +1,6 @@
 package com.wttech.aet.gradle.suite.test.filter
 
-import com.wttech.aet.gradle.AetException
+import com.wttech.aet.gradle.common.asAttr
 
 class FilterCreator : Filter {
 
@@ -31,11 +31,11 @@ class FilterCreator : Filter {
         markupCss: String
     ) {
         val err = if (error != "" && errorPattern == "") " error=\"$error\"" else ""
-        val errPat = if (errorPattern != "") " errorPattern=\"$errorPattern\"" else ""
-        val pri = if (principle != "") " principle=\"$principle\"" else ""
-        val li = if (line > 0) " line=\"$line\"" else ""
-        val col = if (column > 0) " column=\"$column\"" else ""
-        val css = if (markupCss != "") " markupCss=\"$markupCss\"" else ""
+        val errPat = errorPattern.asAttr { " errorPattern=\"$errorPattern\"" }
+        val pri = principle.asAttr { " principle=\"$principle\"" }
+        val li = line.asAttr { " line=\"$line\"" }
+        val col = column.asAttr { " column=\"$column\"" }
+        val css = markupCss.asAttr { " markupCss=\"$markupCss\"" }
         accessibility.add("<accessibility-filter$err$errPat$pri$li$col$css />")
     }
 
@@ -46,11 +46,11 @@ class FilterCreator : Filter {
         errorPattern: String,
         line: Int
     ) {
-        val err = if (error != "") " error=\"$error\"" else ""
-        val errPat = if (errorPattern != "") " errorPattern=\"$errorPattern\"" else ""
-        val src = if (source != "") " source=\"$source\"" else ""
-        val srcPat = if (sourcePattern != "") " sourcePattern=\"$sourcePattern\"" else ""
-        val li = if (line > 0) " line=\"$line\"" else ""
+        val err = error.asAttr { " error=\"$error\"" }
+        val errPat = errorPattern.asAttr { " errorPattern=\"$errorPattern\"" }
+        val src = source.asAttr { " source=\"$source\"" }
+        val srcPat = sourcePattern.asAttr { " sourcePattern=\"$sourcePattern\"" }
+        val li = line.asAttr { " line=\"$line\"" }
         errors.add("<js-errors-filter$err$errPat$src$srcPat$li />")
     }
 }

@@ -39,6 +39,10 @@ aet {
                     compareSource("allFormatted")
                     compareAccessibility(reportLevel = "WARN")
                     compareStatusCodes(400..500, filterCodes = setOf(404, 405))
+                    compareStatusCodes {
+                        filterRange = 400..405
+                        exclude("http://www.external.com/_optional.js", pattern="^.*js$")
+                    }
                     jsErrorFilter(sourcePattern = ".*\\/content\\/dam")
                     jsErrorFilter(errorPattern = "^.*net::ERR_TUNNEL_CONNECTION_FAILED.*\$")
                     accessibilityFilter(

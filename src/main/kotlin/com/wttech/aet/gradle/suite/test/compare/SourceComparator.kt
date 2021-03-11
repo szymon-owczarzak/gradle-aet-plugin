@@ -1,6 +1,7 @@
 package com.wttech.aet.gradle.suite.test.compare
 
 import com.wttech.aet.gradle.AetException
+import com.wttech.aet.gradle.common.asAttr
 
 
 class SourceComparator(var compareType: String = "all") {
@@ -36,8 +37,8 @@ class SourceComparator(var compareType: String = "all") {
         if (dataRanges == "" && patternRanges == "") {
             throw AetException("(removeLinesFilter) At least one parameter 'dataRanges' or 'patternRanges' is required.")
         }
-        val dr = if (dataRanges != "") " dataRanges=\"$dataRanges\"" else ""
-        val pr = if (patternRanges != "") " patternRanges=\"$patternRanges\"" else ""
+        val dr = dataRanges.asAttr { " dataRanges=\"$dataRanges\"" }
+        val pr = patternRanges.asAttr { " patternRanges=\"$patternRanges\"" }
         filters.add("<remove-lines$dr$pr />")
     }
 
@@ -49,7 +50,7 @@ class SourceComparator(var compareType: String = "all") {
         if (dataRegExp == "" && patternRegExp == "" && regExp == "") {
             throw AetException("(removeRegexpFilter) At least one parameter 'dataRegExp', 'patternRegExp' or 'regExp' is required.")
         }
-        val re = if (regExp != "") " regExp='$regExp'" else ""
+        val re = regExp.asAttr { " regExp='$regExp'" }
         val dre = if (regExp == "" && dataRegExp != "") " dataRegExp=\"$dataRegExp\"" else ""
         val pre = if (regExp == "" && patternRegExp != "") " patternRegExp=\"$patternRegExp\"" else ""
         filters.add("<remove-regexp$dre$pre$re />")
