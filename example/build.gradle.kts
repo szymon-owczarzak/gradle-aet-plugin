@@ -29,20 +29,20 @@ aet {
                         click(".cta-button", timeout = 2000)
                     }
                     compare {
-                        compareLayout(percentageThreshold = 10)
-                        compareCookie()
-                        compareJsErrors()
-                        compareSource {
+                        layout(percentageThreshold = 10)
+                        cookie()
+                        jsErrors()
+                        source {
                             compareType = "content"
                             extractElementFilter(elementId = "login_form")
                             removeLinesFilter(patternRanges = "10,14;27,28")
                             removeNodesFilter("//*[@id='blueBarNAXAnchor']/div/div/div/a/i")
                             removeRegexpFilter(regExp = "\"correlationId\": \".*\"")
                         }
-                        compareSource("allFormatted")
-                        compareAccessibility(reportLevel = "WARN")
-                        compareStatusCodes(400..500, filterCodes = setOf(404, 405))
-                        compareStatusCodes {
+                        source("allFormatted")
+                        accessibility(reportLevel = "WARN")
+                        statusCodes(400..500, filterCodes = setOf(404, 405))
+                        statusCodes {
                             filterRange = 400..405
                             exclude("http://www.external.com/_optional.js", pattern = "^.*js$")
                         }

@@ -24,20 +24,20 @@ class Comparator(filterCreator: Filter = FilterCreator()) : Filter by filterCrea
         return builder.toString()
     }
 
-    fun compareSource(compareType: String) = sourceComparator.add(SourceComparator(compareType))
-    fun compareSource(action: Action<SourceComparator>) =
+    fun source(compareType: String) = sourceComparator.add(SourceComparator(compareType))
+    fun source(action: Action<SourceComparator>) =
         sourceComparator.add(SourceComparator().apply { action.execute(this) })
 
-    fun compareStatusCodes(
+    fun statusCodes(
         filterRange: IntRange = 400..600,
         filterCodes: Set<Int> = setOf(),
         showExcluded: Boolean = true
     ) = statusCodesComparator.add(StatusCodeComparator(filterRange, filterCodes, showExcluded))
 
-    fun compareStatusCodes(action: Action<StatusCodeComparator>) =
+    fun statusCodes(action: Action<StatusCodeComparator>) =
         statusCodesComparator.add(StatusCodeComparator().apply { action.execute(this) })
 
-    fun compareAccessibility(
+    fun accessibility(
         reportLevel: String = "ERROR",
         ignoreNotice: Boolean = true,
         showExcluded: Boolean = true
@@ -48,7 +48,7 @@ class Comparator(filterCreator: Filter = FilterCreator()) : Filter by filterCrea
         elements.add("<accessibility report-level=\"$reportLevel\" ignore-notice=\"$ignoreNotice\" showExcluded=\"$showExcluded\" />")
     }
 
-    fun compareCookie(
+    fun cookie(
         action: String = "list",
         cookieName: String = "",
         cookieValue: String = "",
@@ -71,11 +71,11 @@ class Comparator(filterCreator: Filter = FilterCreator()) : Filter by filterCrea
         elements.add("<cookie$act$cn$cv$sm />")
     }
 
-    fun compareJsErrors() {
+    fun jsErrors() {
         elements.add("<js-errors />")
     }
 
-    fun compareLayout(pixelThreshold: Int = 0, percentageThreshold: Int = 0, fuzz: Int = 0) {
+    fun layout(pixelThreshold: Int = 0, percentageThreshold: Int = 0, fuzz: Int = 0) {
         val pixTr = if (pixelThreshold > 0) " pixelThreshold=\"$pixelThreshold\"" else ""
         val perTr = if (percentageThreshold > 0) " percentageThreshold=\"$percentageThreshold\"" else ""
         val fu = if (fuzz > 0) " fuzz=\"$fuzz\"" else ""
@@ -83,7 +83,7 @@ class Comparator(filterCreator: Filter = FilterCreator()) : Filter by filterCrea
         elements.add("<screen comparator=\"layout\"$pixTr$perTr$fu />")
     }
 
-    fun compareW3C(ignoreWarnings: Boolean = true) {
+    fun W3C(ignoreWarnings: Boolean = true) {
         elements.add("<source comparator=\"w3c-html5\" ignore-warnings=\"$ignoreWarnings\" />")
     }
 }
