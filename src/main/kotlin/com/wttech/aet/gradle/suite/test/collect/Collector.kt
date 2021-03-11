@@ -9,33 +9,29 @@ import com.wttech.aet.gradle.suite.test.modify.Modify
 open class Collector(
     private val elements: MutableList<String> = mutableListOf(),
     modifier: Modify = Modifier(elements)
-) : Modify by modifier, Collect {
+) : Modify by modifier {
 
-    override fun open() = add("<open />")
+    fun open() = add("<open />")
 
-    override fun collectAccessibility(standard: String) = add("<accessibility standard=\"$standard\" />")
+    fun collectAccessibility(standard: String = "WCAG2AAA") = add("<accessibility standard=\"$standard\" />")
 
-    override fun collectCookie() = add("<cookie />")
+    fun collectCookie() = add("<cookie />")
 
-    override fun collectJsErrors() = add("<js-errors />")
+    fun collectJsErrors() = add("<js-errors />")
 
-    override fun collectScreen(
-        name: String,
-        css: String,
-        xpath: String,
-        exclude: String,
-        timeout: Int
+    fun collectScreen(
+        name: String, css: String = "", xpath: String = "", exclude: String = "", timeout: Int = 1000
     ) {
         val selector = getSelector("collectScreen", css, xpath, false)
         val exlEl = exclude.asAttr { " exclude-elements=\"$exclude\"" }
         add("<screen name=\"$name\" $selector$exlEl${getTimeout(timeout)} />")
     }
 
-    override fun collectSource() = add("<source />")
+    fun collectSource() = add("<source />")
 
-    override fun collectStatusCodes() = add("<status-codes />")
+    fun collectStatusCodes() = add("<status-codes />")
 
-    override fun buildCollect(): String {
+    fun built(): String {
         val builder = StringBuilder()
         if (elements.isNotEmpty()) {
             builder.append("\n    <collect>")
