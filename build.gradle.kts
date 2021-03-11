@@ -38,7 +38,7 @@ dependencies {
 gradlePlugin {
     plugins {
         create("aet") {
-            id = "com.wttech.aet.gradle"
+            id = "com.szokone.aet.gradle"
             implementationClass = "com.wttech.aet.gradle.AetPlugin"
         }
     }

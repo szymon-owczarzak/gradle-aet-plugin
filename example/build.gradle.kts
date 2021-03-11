@@ -1,5 +1,5 @@
 plugins {
-    id("com.wttech.aet.gradle")
+    id("com.szokone.aet.gradle")
 }
 
 defaultTasks("buildSuite")

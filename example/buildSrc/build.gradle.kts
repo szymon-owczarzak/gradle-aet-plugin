@@ -6,5 +6,5 @@ repositories {
 }
 
 dependencies {
-    implementation("com.cognifide.gradle:aet-plugin:1.0.0")
+    implementation("com.cognifide.gradle:aet-plugin:1.0.1")
 }
