@@ -1,8 +1,10 @@
 package com.wttech.aet.gradle.suite.test.compare
 
-interface Compare {
+import com.wttech.aet.gradle.suite.test.filter.Filter
 
-    fun buildCompare(): String
+interface Compare: Filter {
+
+    fun buildCompare(comparators: Set<SourceComparator> = setOf()): String
 
     fun compareAccessibility(
         reportLevel: String = "ERROR",
@@ -21,7 +23,7 @@ interface Compare {
 
     fun compareLayout(pixelThreshold: Int = 0, percentageThreshold: Int = 0, fuzz: Int = 0)
 
-    fun compareSource(compareType: String = "all")
+//    fun compareSource(compareType: String = "all")
 
     fun compareStatusCodes(
         filterRange: IntRange = 400..600,
@@ -30,12 +32,4 @@ interface Compare {
     )
 
     fun compareW3C(ignoreWarnings: Boolean = true)
-
-    fun jsErrorFilter(
-        error: String = "",
-        source: String = "",
-        sourcePattern: String = "",
-        errorPattern: String = "",
-        line: Int = 0
-    )
 }

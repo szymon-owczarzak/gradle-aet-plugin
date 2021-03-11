@@ -1,7 +1,7 @@
 plugins {
+    id("com.gradle.plugin-publish") version "0.13.0"
     `java-gradle-plugin`
     id("org.jetbrains.kotlin.jvm") version "1.3.71"
-
     id("maven-publish")
 }
 
@@ -40,8 +40,21 @@ gradlePlugin {
         create("aet") {
             id = "com.wttech.aet.gradle"
             implementationClass = "com.wttech.aet.gradle.AetPlugin"
+        }
+    }
+}
+
+pluginBundle {
+    website = "https://github.com/szymon-owczarzak"
+    vcsUrl = "https://github.com/szymon-owczarzak/gradle-aet-plugin"
+
+    description = "Provides DSL for generating AET suites."
+
+    (plugins) {
+        "aet" {
             displayName = "Gradle AET Plugin"
-            description = "Provides DSL for generating AET suites."
+            tags = listOf("aet", "kotlin")
+            version = "1.0.0"
         }
     }
 }

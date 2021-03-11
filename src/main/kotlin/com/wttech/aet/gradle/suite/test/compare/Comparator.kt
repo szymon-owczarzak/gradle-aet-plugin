@@ -1,22 +1,20 @@
 package com.wttech.aet.gradle.suite.test.compare
 
 import com.wttech.aet.gradle.AetException
+import com.wttech.aet.gradle.suite.test.filter.Filter
+import com.wttech.aet.gradle.suite.test.filter.FilterCreator
 
-class Comparator : Compare {
+class Comparator(filterCreator: Filter = FilterCreator()) : Filter by filterCreator, Compare {
 
-    private val compare = mutableSetOf<String>()
-    private val errors = mutableSetOf<String>()
+    private val elements = mutableSetOf<String>()
 
-    override fun buildCompare(): String {
+    override fun buildCompare(comparators: Set<SourceComparator>): String {
         val builder = StringBuilder()
-        if (compare.isNotEmpty() || errors.isEmpty()) {
+        if (elements.isNotEmpty()) {
             builder.append("\n    <compare>")
-            compare.forEach { builder.append("\n      $it") }
-            if (errors.isNotEmpty()) {
-                builder.append("\n      <js-errors>")
-                errors.forEach { builder.append("\n        $it") }
-                builder.append("\n      </js-errors>")
-            }
+            comparators.forEach { builder.append(it.build()) }
+            elements.forEach { builder.append("\n      $it") }
+            builder.append(buildFilters())
             builder.append("\n    </compare>")
         }
         return builder.toString()
@@ -30,7 +28,7 @@ class Comparator : Compare {
         if (!setOf("ERROR", "WARN", "NOTICE").contains(reportLevel)) {
             throw AetException("(compareAccessibility) Given reportLevel allows only \"ERROR\", \"WARN\", \"NOTICE\"")
         }
-        compare.add("<accessibility report-level=\"$reportLevel\" ignore-notice=\"$ignoreNotice\" showExcluded=\"$showExcluded\" />")
+        elements.add("<accessibility report-level=\"$reportLevel\" ignore-notice=\"$ignoreNotice\" showExcluded=\"$showExcluded\" />")
     }
 
     override fun compareCookie(
@@ -53,11 +51,11 @@ class Comparator : Compare {
         val sm =
             if (action == "compare") " showMatched=\"$showMatched\""
             else ""
-        compare.add("<cookie$act$cn$cv$sm />")
+        elements.add("<cookie$act$cn$cv$sm />")
     }
 
     override fun compareJsErrors() {
-        compare.add("<js-errors />")
+        elements.add("<js-errors />")
     }
 
     override fun compareLayout(pixelThreshold: Int, percentageThreshold: Int, fuzz: Int) {
@@ -65,14 +63,7 @@ class Comparator : Compare {
         val perTr = if (percentageThreshold > 0) " percentageThreshold=\"$percentageThreshold\"" else ""
         val fu = if (fuzz > 0) " fuzz=\"$fuzz\"" else ""
 
-        compare.add("<screen comparator=\"layout\"$pixTr$perTr$fu />")
-    }
-
-    override fun compareSource(compareType: String) {
-        if (!setOf("all", "content", "markup", "allFormatted").contains(compareType)) {
-            throw AetException("(compareSource) Given 'compareType' is not supported. Use \"all\", \"content\", \"markup\" or \"allFormatted\".")
-        }
-        compare.add("<source comparator=\"source\" compareType=\"$compareType\" />")
+        elements.add("<screen comparator=\"layout\"$pixTr$perTr$fu />")
     }
 
     override fun compareStatusCodes(
@@ -83,25 +74,10 @@ class Comparator : Compare {
         val fc =
             if (filterCodes.isEmpty()) ""
             else " filterCodes=\"${filterCodes.joinToString { i: Int -> i.toString() }}\""
-        compare.add("<status-codes filterRange=\"${filterRange.first},${filterRange.last}\"$fc showExcluded=\"$showExcluded\" />")
+        elements.add("<status-codes filterRange=\"${filterRange.first},${filterRange.last}\"$fc showExcluded=\"$showExcluded\" />")
     }
 
     override fun compareW3C(ignoreWarnings: Boolean) {
-        compare.add("<source comparator=\"w3c-html5\" ignore-warnings=\"$ignoreWarnings\" />")
-    }
-
-    override fun jsErrorFilter(
-        error: String,
-        source: String,
-        sourcePattern: String,
-        errorPattern: String,
-        line: Int
-    ) {
-        val err = if (error != "") " error=\"$error\"" else ""
-        val errPat = if (errorPattern != "") " errorPattern=\"$errorPattern\"" else ""
-        val src = if (source != "") " source=\"$source\"" else ""
-        val srcPat = if (sourcePattern != "") " sourcePattern=\"$sourcePattern\"" else ""
-        val li = if (line > 0) " line=\"$line\"" else ""
-        errors.add("<js-errors-filter$err$errPat$src$srcPat$li />")
+        elements.add("<source comparator=\"w3c-html5\" ignore-warnings=\"$ignoreWarnings\" />")
     }
 }
