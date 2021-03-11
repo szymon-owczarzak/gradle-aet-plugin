@@ -7,7 +7,7 @@ plugins {
 
 defaultTasks(":publishToMavenLocal")
 
-group = "com.cognifide.gradle"
+group = "com.szokone"
 
 publishing {
     publications {
@@ -54,7 +54,7 @@ pluginBundle {
         "aet" {
             displayName = "Gradle AET Plugin"
             tags = listOf("aet", "kotlin")
-            version = "1.0.0"
+            version = "1.0.1"
         }
     }
 }

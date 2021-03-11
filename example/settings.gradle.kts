@@ -1,1 +1,0 @@
-rootProject.name = "aet-plugin-example"
