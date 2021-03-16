@@ -8,7 +8,7 @@ class Modifier(private val elements: MutableList<String>) : Modify {
 
     override fun click(css: String, xpath: String, timeout: Int) {
         val selector = getSelector("click", css, xpath)
-        elements.add("<click $selector${getTimeout(timeout)} />")
+        elements.add("<click$selector${getTimeout("click", timeout)} />")
     }
 
     override fun addCookie(name: String, value: String, domain: String, path: String) {
@@ -28,7 +28,7 @@ class Modifier(private val elements: MutableList<String>) : Modify {
         basicAuthPassword: String
     ) {
         if (cmd == "" && snippetUrl == "") {
-            throw AetException("Either cmd or snippetUrl must be provided.")
+            throw AetException("(executeJS) Either cmd or snippetUrl must be provided.")
         }
         val cmdOrSnippet =
             if (cmd.isNotBlank()) " cmd=\"$cmd\""
@@ -81,7 +81,14 @@ class Modifier(private val elements: MutableList<String>) : Modify {
         timeout: Int
     ) {
         val selector = getSelector("replaceText", css, xpath)
-        elements.add("<replaceText$selector attribute=\"$attributeName\" value=\"$value\"${getTimeout(timeout)} />")
+        elements.add(
+            "<replaceText$selector attribute=\"$attributeName\" value=\"$value\"${
+                getTimeout(
+                    "replaceText",
+                    timeout
+                )
+            } />"
+        )
     }
 
     override fun resolution(width: Int, height: Int, samplingPeriod: Int) {
@@ -112,7 +119,7 @@ class Modifier(private val elements: MutableList<String>) : Modify {
 
     override fun waitForElementBySelector(css: String, xpath: String, timeout: Int) {
         val selector = getSelector("waitForElementBySelector", css, xpath)
-        elements.add("<wait-for-element-to-be-visible $selector${getTimeout(timeout)} />")
+        elements.add("<wait-for-element-to-be-visible$selector${getTimeout("waitForElementBySelector", timeout)} />")
     }
 
     override fun waitForPage() {

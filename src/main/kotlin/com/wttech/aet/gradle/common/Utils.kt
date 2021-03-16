@@ -2,19 +2,24 @@ package com.wttech.aet.gradle.common
 
 import com.wttech.aet.gradle.AetException
 
-fun String.sanitize(): String = this.replace("_", "-").replace(" ", "-")
+fun String.sanitizeName(): String = this.replace(" ", "-").toLowerCase()
+
+fun String.sanitize(): String = this.sanitizeName().replace("_", "-")
 
 fun getSelector(methodName: String, css: String, xpath: String, mandatory: Boolean = true): String {
     if (mandatory && css == "" && xpath == "") {
         throw AetException("($methodName) Either css or xpath must be provided.")
     }
-    return if (css.isNotBlank()) "css=\"$css\""
-    else "xpath=\"$xpath\""
+    return when {
+        css.isNotBlank() -> " css=\"$css\""
+        xpath.isNotBlank() -> " xpath=\"$xpath\""
+        else -> ""
+    }
 }
 
-fun getTimeout(timeout: Int = 1000, max: Int = 15000): String {
+fun getTimeout(methodName: String, timeout: Int = 1000, max: Int = 15000): String {
     if (timeout > max) {
-        throw AetException("Given timeout value ($timeout) exceeds maxim value ($max)")
+        throw AetException("($methodName) Given timeout value ($timeout) exceeds maxim value ($max)")
     }
     return if (timeout == 1000) ""
     else " timeout=\"$timeout\""

@@ -1,6 +1,6 @@
 package com.wttech.aet.gradle.suite.test
 
-import com.wttech.aet.gradle.common.sanitize
+import com.wttech.aet.gradle.common.sanitizeName
 import com.wttech.aet.gradle.suite.test.collect.Collector
 import com.wttech.aet.gradle.suite.test.compare.Comparator
 import com.wttech.aet.gradle.suite.test.url.URLs
@@ -18,7 +18,7 @@ open class Test(private val name: String) {
     fun compare(action: Action<Comparator>) = action.execute(compare)
 
     fun build(): String {
-        val builder = StringBuilder("\n  <test name=\"${name.sanitize()}\">")
+        val builder = StringBuilder("\n  <test name=\"${name.sanitizeName()}\">")
         builder.append(collect.built())
         builder.append(compare.build())
         builder.append("\n    <urls>")

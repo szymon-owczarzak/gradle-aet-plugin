@@ -13,23 +13,40 @@ open class Collector(
 
     fun open() = add("<open />")
 
-    fun collectAccessibility(standard: String = "WCAG2AAA") = add("<accessibility standard=\"$standard\" />")
+    fun accessibility(standard: String = "WCAG2AAA") = add("<accessibility standard=\"$standard\" />")
 
-    fun collectCookie() = add("<cookie />")
+    fun cookie() = add("<cookie />")
 
-    fun collectJsErrors() = add("<js-errors />")
+    fun jsErrors() = add("<js-errors />")
 
-    fun collectScreen(
+    /**
+     * Collect Screenshot
+     *
+     * @param  name name for the screenshot
+     * @param  css selector, has precedent over xpath
+     * @param  xpath
+     * @param  exclude default not used
+     * @param timeout defaults to 1000
+     */
+    fun screen(
         name: String, css: String = "", xpath: String = "", exclude: String = "", timeout: Int = 1000
     ) {
         val selector = getSelector("collectScreen", css, xpath, false)
         val exlEl = exclude.asAttr { " exclude-elements=\"$exclude\"" }
-        add("<screen name=\"$name\" $selector$exlEl${getTimeout(timeout)} />")
+        add("<screen name=\"$name\"$selector$exlEl${getTimeout("screen", timeout)} />")
     }
 
-    fun collectSource() = add("<source />")
+    fun screenWithResolution(
+        width: Int, name: String, height: Int = 0, samplingPeriod: Int = 100,
+        css: String = "", xpath: String = "", exclude: String = "", timeout: Int = 1000
+    ) {
+        resolution(width, height, samplingPeriod)
+        screen(name, css, xpath, exclude, timeout)
+    }
 
-    fun collectStatusCodes() = add("<status-codes />")
+    fun source() = add("<source />")
+
+    fun statusCodes() = add("<status-codes />")
 
     fun built(): String {
         val builder = StringBuilder()
