@@ -3,6 +3,8 @@ Kotlin Gradle DSL for creating AET suites - **Only Kotlin DSL is supported**
 
 ## Example build.gradle.kts
 
+Example project: [click here](https://github.com/szymon-owczarzak/gradle-aet-plugin-examples)
+
 ```kotlin
 plugins {
     id("com.wttech.aet.gradle")
