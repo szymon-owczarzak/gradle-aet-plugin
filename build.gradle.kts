@@ -54,7 +54,7 @@ pluginBundle {
         "aet" {
             displayName = "Gradle AET Plugin"
             tags = listOf("aet", "kotlin")
-            version = "1.0.1"
+            version = project.version.toString()
         }
     }
 }
